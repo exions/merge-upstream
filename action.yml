@@ -1,0 +1,21 @@
+name: "Merge Upstream"
+description: "Merge changes from the uppstream repo you had forked from."
+author: "eXions"
+branding:
+  icon: git-merge
+  color: black
+
+inputs:
+  upstream:
+    description: 'Upstream repository owner/name. For example, exions/merge-upstream'
+    required: true
+  branch:
+    description: 'This branch to merge from and to. For example, master'
+    default: 'master'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.upstream }}
+    - ${{ inputs.branch }}
