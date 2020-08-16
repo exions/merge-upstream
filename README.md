@@ -57,7 +57,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.branch }}
+          ref: master             # set the branch to merge
           fetch-depth: 0 
       - name: Merge Upstream
         uses: exions/merge-upstream@v1
@@ -74,8 +74,8 @@ Reference:
 This action can trigger manually as needed. 
 
 1. Go to `Actions` at the top of your Github repository
-2. Click on `Manual Undo Push Action` (or other name you have given) under `All workflows`
+2. Click on `Manual Merge Upstream Action` (or other name you have given) under `All workflows`
 3. You will see `Run workflow`, click on it
-4. Fill in the branch to undo the most recent push (⚠️ make sure it is correct)
+4. Fill in the upstream repository and the branch to merge (⚠️ make sure it is correct)
 5. Click `Run workflow`
 6. Check your branch commit history
