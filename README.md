@@ -3,8 +3,8 @@ Merge changes from an upstream repository branch into a current repository branc
 
 Current limitations:
 - only merge only selected branch
-- branch has to be of the same name
 - only work with public upstream Github repository
+- merge fast forward only (--ff-only)
 
 ## Usage
 
@@ -20,10 +20,14 @@ on:
         description: 'Upstream repository owner/name. Eg. exions/merge-upstream'
         required: true
         default: 'owner/name'       # set the upstream repo
-      branch:
-        description: 'Branch to merge'
+      upstream:
+        description: 'Upstream branch to merge from. Eg. master'
         required: true
-        default: 'master'           # set the branch to merge
+        default: 'master'           # set the upstream branch to merge from
+      branch:
+        description: 'Branch to merge to'
+        required: true
+        default: 'upstream'         # set the branch to merge to
 
 jobs:
   merge-upstream:
@@ -38,6 +42,7 @@ jobs:
         uses: exions/merge-upstream@v1
         with:
           upstream: ${{ github.event.inputs.upstream }}
+          upstream-branch: ${{ github.event.inputs.upstream-branch }}
           branch: ${{ github.event.inputs.branch }}
 ```
 
@@ -57,17 +62,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: master             # set the branch to merge
+          ref: upstream             # set the branch to merge to
           fetch-depth: 0 
       - name: Merge Upstream
         uses: exions/merge-upstream@v1
         with:
-          upstream: owner/repo    # set the upstream repo
-          branch: master          # set the branch to merge
+          upstream: owner/repo      # set the upstream repo
+          upstream-branch: master   # set the upstream branch to merge from
+          branch: upstream          # set the branch to merge to
 ```
 
 Reference: 
 - [Triggering a workflow with events](https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#triggering-a-workflow-with-events)
+- [Creating a composite run steps action](https://docs.github.com/en/actions/creating-actions/creating-a-composite-run-steps-action)
 
 ## How to run this action manually
 
@@ -76,6 +83,6 @@ This action can trigger manually as needed.
 1. Go to `Actions` at the top of your Github repository
 2. Click on `Manual Merge Upstream Action` (or other name you have given) under `All workflows`
 3. You will see `Run workflow`, click on it
-4. Fill in the upstream repository and the branch to merge (⚠️ make sure it is correct)
+4. Fill in the upstream repository and branch to merge from, and the branch to merge to (⚠️ double check all are correct)
 5. Click `Run workflow`
 6. Check your branch commit history
