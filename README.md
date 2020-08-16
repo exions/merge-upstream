@@ -19,11 +19,11 @@ on:
       upstream:
         description: 'Upstream repository owner/name. Eg. exions/merge-upstream'
         required: true
-        default: 'master'
+        default: 'owner/name'       # set the upstream repo
       branch:
         description: 'Branch to merge'
         required: true
-        default: 'master'
+        default: 'master'           # set the branch to merge
 
 jobs:
   merge-upstream:
