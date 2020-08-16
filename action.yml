@@ -14,8 +14,11 @@ inputs:
     default: 'master'
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.upstream }}
-    - ${{ inputs.branch }}
+  using: "composite"
+  steps: 
+    - run: | 
+      git remote add -f upstream "https://github.com/${{ inputs.upstream }}.git"
+      git merge --ff-only upstream/${{ inputs.branch }}
+      git push 
+      shell: bash
+      
