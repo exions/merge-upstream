@@ -1,0 +1,47 @@
+name: Release
+# Release the action on push to master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    outputs:
+      published: ${{ steps.release.outputs.published }}
+      release-version: ${{ steps.release.outputs.release-version }}
+      release-version-major: ${{ steps.release.outputs.release-version-major }}
+      release-version-minor: ${{ steps.release.outputs.release-version-minor }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - id: release
+        name: semantic-release
+        uses: ahmadnassri/action-semantic-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  alias:
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        alias:
+          - version: v${{ needs.release.outputs.release-version-major }}
+          - version: v${{ needs.release.outputs.release-version-major }}.${{ needs.release.outputs.release-version-minor }}
+
+    steps:
+      - uses: actions/github-script@v2
+        with:
+          script: |
+            const tag = 'tags/${{ matrix.alias.version }}'
+            const repo = {
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            }
+            await github.git.deleteRef({ ...repo, ref: tag }).catch(() => {})
+            await github.git.createRef({ ...repo, ref: `refs/${tag}` , sha: process.env.GITHUB_SHA })
