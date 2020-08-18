@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "name": "merge-upstream",
+    "version": "0.0.0-semantically-released",
+    "author": {
+      "name": "lcenchew",
+      "email": "lcenchew@outlook.com",
+      "url": "https://github.com/exions/merge-upstream"
+    },
+    "license": "MIT",
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+  }
