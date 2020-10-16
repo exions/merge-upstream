@@ -61,7 +61,7 @@ jobs:
           upstream: owner/repo              # set the upstream repo
           upstream-branch: another-branch   # set the upstream branch to merge from
           branch: another-branch            # set the branch to merge to
-
+          token: ${{ secrets.TOKEN }}
 ```
 
 
