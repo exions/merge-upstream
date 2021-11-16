@@ -93,7 +93,7 @@ on:
         description: 'Upstream repository owner/name. Eg. exions/merge-upstream'
         required: true
         default: 'owner/name'       # set the upstream repo
-      upstream:
+      upstream-branch:
         description: 'Upstream branch to merge from. Eg. master'
         required: true
         default: 'master'           # set the upstream branch to merge from
