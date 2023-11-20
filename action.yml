@@ -12,6 +12,9 @@ inputs:
   upstream-branch:
     description: 'Upstream branch to merge from. For example, master'
     default: 'master'
+  ff:
+    description: 'merge behavior, For example, --ff-only, --no-ff, --ff'
+    default: '--ff-only'
   branch:
     description: 'Branch to merge to. For example, master'
     default: 'master'
@@ -34,6 +37,6 @@ runs:
         git branch --all
         git config --list
         git checkout ${{ inputs.branch }}
-        git merge --ff-only upstream/${{ inputs.upstream-branch }}
+        git merge ${{ inputs.ff }} upstream/${{ inputs.upstream-branch }}
         git push 
       shell: bash
